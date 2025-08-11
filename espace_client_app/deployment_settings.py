@@ -32,8 +32,12 @@ STORAGES = {
 }
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'koyebdb',
+        'USER': 'koyeb-adm',
+        'PASSWORD': 'npg_mphVJMv0SzC4',
+        'HOST': 'ep-long-sound-a2otkrv1.eu-central-1.pg.koyeb.app',
+        'OPTIONS': {'sslmode': 'require'},
+    }
 }
