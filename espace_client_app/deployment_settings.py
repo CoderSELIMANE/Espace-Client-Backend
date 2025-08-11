@@ -30,7 +30,6 @@ STORAGES = {
         'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
     },
 }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
