@@ -374,7 +374,7 @@ def preview_document_view(request, document_id):
 
         # Headers pour permettre l'affichage dans iframe et éviter les problèmes CORS
         response['X-Frame-Options'] = 'SAMEORIGIN'
-        response['Content-Security-Policy'] = "frame-ancestors 'self' http://localhost:3000 http://127.0.0.1:3000"
+        response['Content-Security-Policy'] = "frame-ancestors *"
         response['Access-Control-Allow-Origin'] = '*'  # Permettre toutes les origines pour la preview
         response['Access-Control-Allow-Credentials'] = 'true'
         response['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS'
