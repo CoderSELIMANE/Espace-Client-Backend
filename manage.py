@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    settings_module = 'espace_client_app.deployment_settings' if 'RENDER_EXTERNAL_HOSTNAME' in os.environ else 'espace_client_app.settings'
+    settings_module = 'espace_client_app.settings'
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
     try:
         from django.core.management import execute_from_command_line

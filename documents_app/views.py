@@ -206,9 +206,47 @@ class DocumentDetailView(generics.RetrieveUpdateDestroyAPIView):
     """Vue pour récupérer, modifier ou supprimer un document"""
     serializer_class = DocumentSerializer
     permission_classes = [IsAuthenticated]
-    
+
     def get_queryset(self):
+        # Les administrateurs peuvent accéder à tous les documents
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return Document.objects.filter(is_active=True)
+        # Les utilisateurs normaux ne peuvent accéder qu'à leurs propres documents
         return Document.objects.filter(user=self.request.user, is_active=True)
+
+    def update(self, request, *args, **kwargs):
+        """Seuls les propriétaires ou les admins peuvent modifier"""
+        document = self.get_object()
+
+        # Les administrateurs peuvent modifier tous les documents
+        if request.user.is_staff or request.user.is_superuser:
+            return super().update(request, *args, **kwargs)
+
+        # Les utilisateurs normaux ne peuvent modifier que leurs propres documents
+        if document.user != request.user:
+            return Response(
+                {'error': 'Vous n\'avez pas la permission de modifier ce document'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """Seuls les propriétaires ou les admins peuvent supprimer"""
+        document = self.get_object()
+
+        # Les administrateurs peuvent supprimer tous les documents
+        if request.user.is_staff or request.user.is_superuser:
+            return super().destroy(request, *args, **kwargs)
+
+        # Les utilisateurs normaux ne peuvent supprimer que leurs propres documents
+        if document.user != request.user:
+            return Response(
+                {'error': 'Vous n\'avez pas la permission de supprimer ce document'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        return super().destroy(request, *args, **kwargs)
 
 
 @api_view(['GET'])
@@ -216,7 +254,12 @@ class DocumentDetailView(generics.RetrieveUpdateDestroyAPIView):
 def download_document_view(request, document_id):
     """Vue pour télécharger un document"""
     try:
-        document = Document.objects.get(id=document_id, user=request.user, is_active=True)
+        # Les administrateurs peuvent télécharger tous les documents
+        if request.user.is_staff or request.user.is_superuser:
+            document = Document.objects.get(id=document_id, is_active=True)
+        else:
+            # Les utilisateurs normaux ne peuvent télécharger que leurs propres documents
+            document = Document.objects.get(id=document_id, user=request.user, is_active=True)
     except Document.DoesNotExist:
         raise Http404("Document non trouvé")
 

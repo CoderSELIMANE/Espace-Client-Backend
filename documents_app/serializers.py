@@ -65,8 +65,8 @@ class DocumentSerializer(serializers.ModelSerializer):
 
     file_size = serializers.ReadOnlyField()
     file_extension = serializers.ReadOnlyField()
-    user_email = serializers.CharField(source='user.email', read_only=True)
-    user_full_name = serializers.CharField(source='user.full_name', read_only=True)
+    user_email = serializers.SerializerMethodField()
+    user_full_name = serializers.SerializerMethodField()
     is_owner = serializers.SerializerMethodField()
 
     class Meta:
@@ -78,16 +78,26 @@ class DocumentSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id', 'uploaded_at', 'updated_at', 'user_email', 'user_full_name', 'is_owner')
 
+    def get_user_email(self, obj):
+        """Retourner l'email de l'utilisateur ou un message si supprimé"""
+        return obj.user.email if obj.user else "Utilisateur supprimé"
+
+    def get_user_full_name(self, obj):
+        """Retourner le nom complet de l'utilisateur ou un message si supprimé"""
+        return obj.user.full_name if obj.user else "Utilisateur supprimé"
+
     def get_is_owner(self, obj):
         """Vérifier si l'utilisateur actuel est le propriétaire du document"""
         request = self.context.get('request')
-        if request and request.user:
+        if request and request.user and obj.user:
             return obj.user == request.user
         return False
 
     def create(self, validated_data):
         # Associer automatiquement l'utilisateur connecté
-        validated_data['user'] = self.context['request'].user
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            validated_data['user'] = request.user
         return super().create(validated_data)
 
 
@@ -120,7 +130,9 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
         return True  # Forcer tous les documents à être publics
 
     def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            validated_data['user'] = request.user
         return super().create(validated_data)
 
 

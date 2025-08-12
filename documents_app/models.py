@@ -73,7 +73,7 @@ class Document(models.Model):
         ('other', 'Autre'),
     ]
     
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='documents')
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='documents')
     title = models.CharField('Titre', max_length=200)
     description = models.TextField('Description', blank=True)
     file = models.FileField('Fichier', upload_to=document_upload_path)
@@ -89,7 +89,8 @@ class Document(models.Model):
         ordering = ['-uploaded_at']
     
     def __str__(self):
-        return f"{self.title} - {self.user.email}"
+        user_email = self.user.email if self.user else "Utilisateur supprimé"
+        return f"{self.title} - {user_email}"
     
     @property
     def file_size(self):
