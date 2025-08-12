@@ -28,9 +28,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "https://fortunate-delila-testmyappdeveloppement-50d9baf7.koyeb.app",
+    "www.ton-domaine.com"
+]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
-
+X_FRAME_OPTIONS = 'ALLOWALL'
 
 # Application definition
 
