@@ -164,8 +164,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOWED_ORIGINS = [
-    "https://espace-client-frontend-two.vercel.app",
-    "https://espace-client-frontend-two.vercel.app",
+    "https://espace-client-frontend-seven.vercel.app",
+    "https://espace-client-frontend-seven.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
