@@ -48,8 +48,6 @@ INSTALLED_APPS = [
     'storages',
 ]
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
 AWS_ACCESS_KEY_ID = '0057a9e8241d8490000000001'  # keyID Backblaze
 AWS_SECRET_ACCESS_KEY = 'K005XBcr7UY6enLUmbQydRXYgCGon9k'  # applicationKey Backblaze
 AWS_STORAGE_BUCKET_NAME = 'mes-docs'
@@ -90,13 +88,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'espace_client_app.wsgi.application'
 
-
 STORAGES = {
-    'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,
+            "region_name": AWS_S3_REGION_NAME,
+            "endpoint_url": AWS_S3_ENDPOINT_URL,
+        },
     },
-    'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 # Database
