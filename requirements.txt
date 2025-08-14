@@ -8,6 +8,8 @@ djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.1
 jmespath==1.0.1
 lxml==6.0.0
+psycopg2==2.9.10
+psycopg2-binary==2.9.10
 PyJWT==2.10.1
 python-dateutil==2.9.0.post0
 python-docx==1.1.0
@@ -17,4 +19,5 @@ sqlparse==0.5.3
 typing_extensions==4.14.1
 tzdata==2025.2
 urllib3==2.5.0
+
 
