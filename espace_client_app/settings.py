@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'storages',
 ]
-'''
+
 AWS_ACCESS_KEY_ID = '0057a9e8241d8490000000001'  # keyID Backblaze
 AWS_SECRET_ACCESS_KEY = 'K005XBcr7UY6enLUmbQydRXYgCGon9k'  # applicationKey Backblaze
 AWS_STORAGE_BUCKET_NAME = 'mes-docs'
@@ -57,7 +57,7 @@ AWS_QUERYSTRING_AUTH = False
 '''
 DROPBOX_OAUTH2_TOKEN =os.environ.get('DROPBOX_OAUTH2_TOKEN') # depuis env
 DROPBOX_ROOT_PATH = "/media"  # dossier de stockage dans Dropbox
-
+'''
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -91,18 +91,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'espace_client_app.wsgi.application'
 
+
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.dropbox.DropBoxStorage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         "OPTIONS": {
-            "oauth2_access_token": DROPBOX_OAUTH2_TOKEN,
-            "root_path": DROPBOX_ROOT_PATH,
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,
+            "region_name": AWS_S3_REGION_NAME,
+            "endpoint_url": AWS_S3_ENDPOINT_URL,
         },
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 '''
