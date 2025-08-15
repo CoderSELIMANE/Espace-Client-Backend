@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,13 +48,16 @@ INSTALLED_APPS = [
     'corsheaders',
     'storages',
 ]
-
+'''
 AWS_ACCESS_KEY_ID = '0057a9e8241d8490000000001'  # keyID Backblaze
 AWS_SECRET_ACCESS_KEY = 'K005XBcr7UY6enLUmbQydRXYgCGon9k'  # applicationKey Backblaze
 AWS_STORAGE_BUCKET_NAME = 'mes-docs'
 AWS_S3_REGION_NAME = 'us-east-005'  # selon la région donnée par Backblaze
 AWS_S3_ENDPOINT_URL = 'https://s3.us-east-005.backblazeb2.com'  # Endpoint S3 exact
 AWS_QUERYSTRING_AUTH = False
+'''
+DROPBOX_OAUTH2_TOKEN = 'sl.u.AF7Iw-hswAS2GLIGk-mM6rBK4LwlKlIxIiq7DbRkMjORPfFCcB9iM59cj2LDDNh004DNoyKIH9IM3fgpI-bE1wMa05M7PiQBhS0ChFsN2OtqONtRh64HsUlOIB4zrdpKd9awgia_JqbOcc7kX7lMjb2i0Bco1S6U5AHQ6FIeYcbV0bJK0uRGpxa8U-JsmdfosOqBu1qfVWFiCIyGsrMOFaH7tKfOFxJJVSK4_fjQpxa04Yq9k9_l3JXcw8wz2ngBLR3ngmI_K4eg3VbJJqsg6FZrOpTX_IUmmUnSbV-qCEtr1U4jC2E0fKlwz2DOB4xa2nYUU6eV7UffEk6NRamQ2Z_SO9DzepG0dsUxkgW7Nkya_6lFNgr2qKvcCvFzyw2Sk4K0hrnOl2l9hTUxjCSeWrQzymSD6I4F1Ih0qiH4A3ZJK7tNor_EkkIGStIbQE5q8qF20ysds9dttiyh1s-MmM_rXe07EhpVT7LG-50QQDv-19K5-UiTehQUI4yMo5QRMNxQbkPShIeVcKk33MA5gPc1STLAnBYFz5XXdQzQ5FwmTNChC01H5SjZhYAGlGGSBnnEt5iHn3125gUub2uA7Q9F7FaaatzDm2NlEGIckQgu7t5sP_MMZitCL5sJzmSlzrxbrXleXrj2eaBWFsVg5Rxgj6jpmBtQ20PN3T9uBJAbyiG6a9JbR6RsBWioZ_QJIdu2DIGvrTjvfYzdswTnrSe9L7GNFESNiLh429ZY2kA8RD8x4lqC6bPQCBQ9sqPC7yH_P3kW0_fO3HGT3A5fYbTNkOHsoOg10vpiL-JmBhCuDxAbpJiNjtSbSTzoH1idwfG3Hhpc99mXZ99rsW38tmVALufpcBrzBV9yi19hFfgyHLG54AP8TroakRvJHg8vuBRB1abuEOUuJCID0OH7K74aQyNI7RoYq6D92vuPPawb9-vE45HBJl9bzN1f3tU3Vmukq6XNat_Ij_v38xFB2WEXzBoevSXwT2Zuaok_e9Mx3nVUYdQuo75DHnp_oecgPHJ3ZfbvN_PT7PN3kmahl3CjqZhx-Jref0x0coCtQFLygrTJPf6Ipv0vHrbn8o4vjXlmoDvFjkQjVxbDiWzgp_6qEcdrdXtTTCLpQmPmZSsxCi-qI4Lo580GF4N2Wyf_Pjes-lBIwKrNnN0yhLO64rud6V6KcV3feyiB-YrhvVxJRR6vRm5seIf2zkpN4eRPQp-ri1AIRd97BcXp0a2Qws1W5ISImNhB4c8qPwYHBDVLMkg2vMv0P4bsRpy2t63jwnorBW_XTnbJooNpXeheHUu3mA-uFe6_XuUvc4P9Xx8xfqeXoRePvgF5TYDoJHQFwarzmRiCq_yibP8HzWTVn3g6WgWapU5L5LZ-PfHDGe0ULC4Ti_lW7zDu_aRQvlw9sCXEXBSl3JeUZKQjB_lNosD03B__bx5qAFdKlTURQRgj9PkGmY-DU594BEoqnRSHDYY' # depuis env
+DROPBOX_ROOT_PATH = "/media"  # dossier de stockage dans Dropbox
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,13 +94,10 @@ WSGI_APPLICATION = 'espace_client_app.wsgi.application'
 
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "storages.backends.dropbox.DropBoxStorage",
         "OPTIONS": {
-            "access_key": AWS_ACCESS_KEY_ID,
-            "secret_key": AWS_SECRET_ACCESS_KEY,
-            "bucket_name": AWS_STORAGE_BUCKET_NAME,
-            "region_name": AWS_S3_REGION_NAME,
-            "endpoint_url": AWS_S3_ENDPOINT_URL,
+            "oauth2_access_token": DROPBOX_OAUTH2_TOKEN,
+            "root_path": DROPBOX_ROOT_PATH,
         },
     },
     "staticfiles": {
