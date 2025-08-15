@@ -55,7 +55,7 @@ AWS_S3_REGION_NAME = 'us-east-005'  # selon la région donnée par Backblaze
 AWS_S3_ENDPOINT_URL = 'https://s3.us-east-005.backblazeb2.com'  # Endpoint S3 exact
 AWS_QUERYSTRING_AUTH = False
 '''
-DROPBOX_OAUTH2_TOKEN =os.environ.get('DROPBOX_OAUTH2_TOKEN') # depuis env
+DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN') # depuis env
 DROPBOX_ROOT_PATH = "/media"  # dossier de stockage dans Dropbox
 
 MIDDLEWARE = [
