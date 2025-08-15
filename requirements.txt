@@ -1,6 +1,8 @@
 asgiref==3.9.1
 boto3==1.40.9
 botocore==1.40.9
+certifi==2025.8.3
+charset-normalizer==3.4.3
 click==8.2.1
 colorama==0.4.6
 Django==5.2.4
@@ -8,24 +10,30 @@ django-cors-headers==4.7.0
 django-storages==1.14.6
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.1
+dropbox==12.0.2
 gunicorn==23.0.0
 h11==0.16.0
+idna==3.10
 jmespath==1.0.1
 lxml==6.0.0
 packaging==25.0
+ply==3.11
 psycopg2==2.9.10
 psycopg2-binary==2.9.10
 PyJWT==2.10.1
 python-dateutil==2.9.0.post0
 python-docx==1.1.0
+requests==2.32.4
 s3transfer==0.13.1
 six==1.17.0
 sqlparse==0.5.3
+stone==3.3.1
 typing_extensions==4.14.1
 tzdata==2025.2
 urllib3==2.5.0
 uvicorn==0.35.0
 whitenoise==6.9.0
+
 
 
 
