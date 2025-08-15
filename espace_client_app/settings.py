@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,7 +56,7 @@ AWS_S3_REGION_NAME = 'us-east-005'  # selon la région donnée par Backblaze
 AWS_S3_ENDPOINT_URL = 'https://s3.us-east-005.backblazeb2.com'  # Endpoint S3 exact
 AWS_QUERYSTRING_AUTH = False
 '''
-DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN') # depuis env
+DROPBOX_OAUTH2_TOKEN = config("DROPBOX_OAUTH2_TOKEN") # depuis env
 DROPBOX_ROOT_PATH = "/media"  # dossier de stockage dans Dropbox
 
 MIDDLEWARE = [
